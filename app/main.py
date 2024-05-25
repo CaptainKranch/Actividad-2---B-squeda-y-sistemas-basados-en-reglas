@@ -12,11 +12,11 @@ class Graph:
         if from_node not in self.edges:
             self.edges[from_node] = []
         self.edges[from_node].append(to_node)
-        
+
         if to_node not in self.edges:
             self.edges[to_node] = []
         self.edges[to_node].append(from_node)
-        
+
         # Añadir el peso de la ruta
         self.weights[(from_node, to_node)] = weight
         self.weights[(to_node, from_node)] = weight
@@ -25,7 +25,7 @@ class Graph:
 def dijkstra(graph, start, end):
     queue = []
     heapq.heappush(queue, (0, start))
-    distances = {node: float('infinity') for node in graph.edges}
+    distances = {node: float("infinity") for node in graph.edges}
     distances[start] = 0
     previous_nodes = {node: None for node in graph.edges}
 
@@ -53,17 +53,39 @@ def dijkstra(graph, start, end):
 
     return path
 
+
 # Crear el grafo del sistema de transporte
 graph = Graph()
-graph.add_edge('A', 'B', 1)
-graph.add_edge('B', 'C', 2)
-graph.add_edge('A', 'C', 2)
-graph.add_edge('C', 'D', 1)
-graph.add_edge('B', 'D', 2)
+# Añadir más estaciones y rutas con intersecciones
+graph.add_edge("A", "B", 1)
+graph.add_edge("A", "C", 4)
+graph.add_edge("B", "C", 2)
+graph.add_edge("B", "D", 5)
+graph.add_edge("C", "D", 1)
+graph.add_edge("C", "E", 3)
+graph.add_edge("D", "E", 2)
+graph.add_edge("D", "F", 3)
+graph.add_edge("E", "F", 1)
+graph.add_edge("E", "G", 2)
+graph.add_edge("F", "G", 2)
+graph.add_edge("F", "H", 3)
+graph.add_edge("G", "H", 1)
+graph.add_edge("G", "I", 3)
+graph.add_edge("H", "I", 2)
+graph.add_edge("H", "J", 4)
+graph.add_edge("I", "J", 1)
+graph.add_edge("I", "K", 2)
+graph.add_edge("J", "K", 3)
+graph.add_edge("J", "L", 2)
+graph.add_edge("K", "L", 1)
+graph.add_edge("K", "M", 4)
+graph.add_edge("L", "M", 2)
+
 
 def find_route(start, end):
     path = dijkstra(graph, start, end)
     return " -> ".join(path)
+
 
 with gr.Blocks() as demo:
     with gr.Row():
